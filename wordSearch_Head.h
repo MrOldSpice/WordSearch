@@ -3,9 +3,11 @@
 
 #include <vector>
 #include <string>
-#include <ctime>
+#include <bits/stdc++.h>
 #include <iostream>
+#include <fstream>
 using namespace std;
+
 
 class wordList{
 public:
@@ -19,7 +21,7 @@ public:
 	void insertionSort();		//sort vector 'dictionary' using Insertion Sort (1)
 	void quickSort();		//sort vector 'dictionary' using Quick Sort     (2)
 	void mergeSort();		//sort vector 'dictionary' using Merge Sort     (3)
-	
+		
 	//Searching the Dictionary (Binary Search)
 	bool findWord(string);		//return TRUE if string is contained in dictionary
 };

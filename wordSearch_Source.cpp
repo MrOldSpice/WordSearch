@@ -49,9 +49,24 @@ void wordList :: mergeSort(){
 }
 
 bool wordList :: findWord(string word){
-
-	//use Binary Search to find word retrun TRUE if word is contained in dictionary, else FALSE
-    return false;
+	//Binary Search to check if word contained in dictionary
+	int i   = 0;
+	int end = (int)dictionary.size() - 1;
+	
+	while( i <= end ){
+		int middle = i + (end - 1) / 2;
+		if(dicrionary[middle] == word)
+			return true;
+		
+		//Look at right side if word > middle
+		if(dictionary[middle] < word) 
+			i = middle + 1;
+		//Look at Left side
+		else
+			end = middle - 1;
+	}
+	
+	return false; //not found
 }
 
 
@@ -88,8 +103,7 @@ void grid :: printGrid(){
 		for(unsigned j = 0; j < letterGrid[i].size(); j++)
 			cout << letterGrid[i][j] << " "; 
 		cout << endl;
-	}
-	
+	}	
 }
 
 
@@ -138,6 +152,6 @@ void search( int sortAlgorith){
 	
 	//Stop timer
 	end = clock();
-	double tot_Time = double( end - start) / double(CLOCKS_PER_SEC);
-	cout << "Runtime: "<< fixed << tot_Time << setprecision(5) << " sec" << endl;
+	double tot_Time = double(end - start) / double(CLOCKS_PER_SEC);
+	cout << "Runtime: "<< fixed << tot_Time << setprecision(5) << " seconds" << endl;
 }

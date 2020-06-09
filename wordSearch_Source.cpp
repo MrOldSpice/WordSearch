@@ -71,7 +71,7 @@ vector<string> wordList :: mergeSort(vector<string> m){
     return result;
 }
 
-vector<string> merge(vector<string> left, vector<string> right)
+vector<string> wordList ::  merge(vector<string> left, vector<string> right)
 {
     vector<string> result;
     while ((int)left.size() > 0 || (int)right.size() > 0) {

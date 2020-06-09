@@ -49,26 +49,53 @@ void wordList :: quickSort(int low, int high){
     }
 }
 
-void wordList :: mergeSort(){
+vector<string> wordList :: mergeSort(vector<string> m){
+    if (m.size() <= 1)
+        return m;
 
-	//sort vector 'dictionary' with merge sort
+    vector<string> left, right, result;
+    int middle = ((int)m.size()+ 1) / 2;
 
-}
-/*
-vector<string> :: merge(vector<string> left, vector<string> right){
-    size_t ileft = 0, iright = 0;
-    vector<string> results;
-    while (ileft < left.size() && iright < right.size()) {
-        if (left[ileft].front() < right[iright].front())
-            results.push_back(left[ileft++]);
-        else
-            results.push_back(right[iright++]);
+    for (int i = 0; i < middle; i++) {
+        left.push_back(m[i]);
     }
-    while (ileft  < left.size() ) results.push_back(left [ileft++ ]);
-    while (iright < right.size()) results.push_back(right[iright++]);
-    return results;
+
+    for (int i = middle; i < (int)m.size(); i++) {
+        right.push_back(m[i]);
+    }
+
+    left = mergeSort(left);
+    right = mergeSort(right);
+    result = merge(left, right);
+
+    return result;
 }
- */
+
+vector<string> merge(vector<string> left, vector<string> right)
+{
+    vector<string> result;
+    while ((int)left.size() > 0 || (int)right.size() > 0) {
+        if ((int)left.size() > 0 && (int)right.size() > 0) {
+            if ((string)left.front() <= (string)right.front()) {
+                result.push_back((string)left.front());
+                left.erase(left.begin());
+            }
+            else {
+                result.push_back((string)right.front());
+                right.erase(right.begin());
+            }
+        }  else if ((int)left.size() > 0) {
+            for (int i = 0; i < (int)left.size(); i++)
+                result.push_back(left[i]);
+            break;
+        }  else if ((int)right.size() > 0) {
+            for (int i = 0; i < (int)right.size(); i++)
+                result.push_back(right[i]);
+            break;
+        }
+    }
+    return result;
+}
 int wordList :: partition (int low, int high){
     string pivot = dictionary[high];    // pivot
     int i = (low - 1);  // Index of smaller element
@@ -162,7 +189,7 @@ void findMatches( string dictionaryFile, string gridFile, int sortAlgorithm){
 	else if( sortAlgorithm == 2)
 		words.quickSort(0,words.dictionary.size()-1);
 	else if( sortAlgorithm == 3)
-		words.mergeSort();
+		words.mergeSort(words.dictionary);
 
 	//test if grid letter combos match 
 		//possibly another recursive function to call all possible letter combonations

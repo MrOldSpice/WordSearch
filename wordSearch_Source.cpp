@@ -50,7 +50,7 @@ void wordList :: quickSort(int low, int high){
 }
 
 vector<string> wordList :: mergeSort(vector<string> m){
-    if (m.size() <= 1)
+    if (m.size() >= 1)
         return m;
 
     vector<string> left, right, result;

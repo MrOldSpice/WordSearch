@@ -55,7 +55,7 @@ bool wordList :: findWord(string word){
 	
 	while( i <= end ){
 		int middle = i + (end - 1) / 2;
-		if(dicrionary[middle] == word)
+		if(dictionary[middle] == word)
 			return true;
 		
 		//Look at right side if word > middle

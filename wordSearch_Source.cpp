@@ -36,16 +36,41 @@ void wordList :: insertionSort(){
 	//sort vector 'dictionary' with insertion sort by letter
 }
 
-void wordList :: quickSort(){
+void wordList :: quickSort(int low, int high){
+    if (low < high){
+        /* pi is partitioning index, arr[p] is now
+           at right place */
+        int pi = partition(low, high);
 
-	//sort vector 'dictionary' with quick sort by letter
-
+        // Separately sort elements before
+        // partition and after partition
+        quickSort(low, pi - 1);
+        quickSort(pi + 1, high);
+    }
 }
 
 void wordList :: mergeSort(){
 
 	//sort vector 'dictionary' with merge sort
 
+}
+
+int wordList :: partition (int low, int high){
+    string pivot = dictionary[high];    // pivot
+    int i = (low - 1);  // Index of smaller element
+
+    for (int j = low; j <= high- 1; j++)
+    {
+        // If current element is smaller than or
+        // equal to pivot
+        if (dictionary[j] <= pivot)
+        {
+            i++;    // increment index of smaller element
+            swap(dictionary[i], dictionary[j]);
+        }
+    }
+    swap(dictionary[i + 1], dictionary[high]);
+    return (i + 1);
 }
 
 bool wordList :: findWord(string word){

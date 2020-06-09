@@ -19,9 +19,11 @@ public:
 
 	//Sorting Algorithms
 	void insertionSort();		//sort vector 'dictionary' using Insertion Sort (1)
-	void quickSort();		//sort vector 'dictionary' using Quick Sort     (2)
+	void quickSort(int low, int high);		//sort vector 'dictionary' using Quick Sort     (2)
 	void mergeSort();		//sort vector 'dictionary' using Merge Sort     (3)
-		
+	int partition ( int low, int high);
+    void merge(int l, int m, int r);
+
 	//Searching the Dictionary (Binary Search)
 	bool findWord(string);		//return TRUE if string is contained in dictionary
 };

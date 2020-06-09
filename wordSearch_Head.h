@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-#include <bits/stdc++.h>
+#include <time.h>
 #include <iostream>
 #include <fstream>
 using namespace std;
@@ -22,7 +22,7 @@ public:
 	void quickSort(int low, int high);		//sort vector 'dictionary' using Quick Sort     (2)
 	void mergeSort();		//sort vector 'dictionary' using Merge Sort     (3)
 	int partition ( int low, int high);
-    void merge(int l, int m, int r);
+    //vector<string> merge(vector<string> left, vector<string> right);
 
 	//Searching the Dictionary (Binary Search)
 	bool findWord(string);		//return TRUE if string is contained in dictionary

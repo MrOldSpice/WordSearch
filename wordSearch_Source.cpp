@@ -54,7 +54,21 @@ void wordList :: mergeSort(){
 	//sort vector 'dictionary' with merge sort
 
 }
-
+/*
+vector<string> :: merge(vector<string> left, vector<string> right){
+    size_t ileft = 0, iright = 0;
+    vector<string> results;
+    while (ileft < left.size() && iright < right.size()) {
+        if (left[ileft].front() < right[iright].front())
+            results.push_back(left[ileft++]);
+        else
+            results.push_back(right[iright++]);
+    }
+    while (ileft  < left.size() ) results.push_back(left [ileft++ ]);
+    while (iright < right.size()) results.push_back(right[iright++]);
+    return results;
+}
+ */
 int wordList :: partition (int low, int high){
     string pivot = dictionary[high];    // pivot
     int i = (low - 1);  // Index of smaller element
@@ -146,7 +160,7 @@ void findMatches( string dictionaryFile, string gridFile, int sortAlgorithm){
 	if( sortAlgorithm == 1)
 		words.insertionSort();
 	else if( sortAlgorithm == 2)
-		words.quickSort();
+		words.quickSort(0,words.dictionary.size()-1);
 	else if( sortAlgorithm == 3)
 		words.mergeSort();
 
@@ -177,6 +191,6 @@ void search( int sortAlgorith){
 	
 	//Stop timer
 	end = clock();
-	double tot_Time = double(end - start) / double(CLOCKS_PER_SEC);
-	cout << "Runtime: "<< fixed << tot_Time << setprecision(5) << " seconds" << endl;
+	float tot_Time = float(end - start) / float(CLOCKS_PER_SEC);
+	cout << "Runtime: "<< fixed << tot_Time << " seconds" << endl;
 }

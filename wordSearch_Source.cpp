@@ -50,7 +50,7 @@ void wordList :: quickSort(int low, int high){
 }
 
 vector<string> wordList :: mergeSort(vector<string> m){
-    if (m.size() >= 1)
+    if (m.size() <= 1)
         return m;
 
     vector<string> left, right, result;
@@ -189,7 +189,7 @@ void findMatches( string dictionaryFile, string gridFile, int sortAlgorithm){
 	else if( sortAlgorithm == 2)
 		words.quickSort(0,words.dictionary.size()-1);
 	else if( sortAlgorithm == 3)
-		words.mergeSort(words.dictionary);
+		words.dictionary = words.mergeSort(words.dictionary);
 
 	//test if grid letter combos match 
 		//possibly another recursive function to call all possible letter combonations

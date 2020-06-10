@@ -6,6 +6,7 @@
 #include <time.h>
 #include <iostream>
 #include <fstream>
+#include <list>
 using namespace std;
 
 
@@ -36,7 +37,19 @@ public:
 	void readGrid(string);	//Read letters from grid, IN: file name
 	void printGrid();	//Print the letter grid
 };
+/*
+template <class T>
+class hashTable{
+public:
+    list<pair<int, string>> table[10];
+    int BUCKET;
+    vector<vector<T>>;
 
+    void addItem();
+    void deleteItem();
+    void inList();
+};
+ */
 //Function findMatches
 // IN: grid file name, dictionary file name, sorting algorithm to be used
 // Will print words that are in dictionary and on the grid

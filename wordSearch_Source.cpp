@@ -27,7 +27,7 @@ void wordList :: insertionSort(){
     for (int i = 1; i < (int)dictionary.size(); i++) {
         string key = dictionary[i];
         int j = i - 1;
-        while (j >= 0 && dictionary[j].front() > key.front()) {
+        while (j >= 0 && dictionary[j] > key) {
            dictionary[j + 1] = dictionary [j];
             j = j - 1;
         }
@@ -96,6 +96,7 @@ vector<string> wordList ::  merge(vector<string> left, vector<string> right)
     }
     return result;
 }
+
 int wordList :: partition (int low, int high){
     string pivot = dictionary[high];    // pivot
     int i = (low - 1);  // Index of smaller element

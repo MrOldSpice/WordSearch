@@ -49,7 +49,7 @@ public:
     void deleteItem();
     void inList();
 };
- */
+*/
 //Function findMatches
 // IN: grid file name, dictionary file name, sorting algorithm to be used
 // Will print words that are in dictionary and on the grid

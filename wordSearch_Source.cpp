@@ -1,6 +1,6 @@
 #include "wordSearch_Head.h"
 
-//Function definitions for class wordList
+/* -----Function definitions for class wordList----- */
 void wordList :: readDictionary(string dictionaryFile ){
     string line;// create a temp variable to store each line too
     ifstream file (dictionaryFile);// open passed file to read from
@@ -27,7 +27,7 @@ void wordList :: insertionSort(){
     for (int i = 1; i < (int)dictionary.size(); i++) {
         string key = dictionary[i];
         int j = i - 1;
-        while (j >= 0 && dictionary[j].front() > key.front()) {
+        while (j >= 0 && dictionary[j] > key) {
            dictionary[j + 1] = dictionary [j];
             j = j - 1;
         }
@@ -56,10 +56,12 @@ vector<string> wordList :: mergeSort(vector<string> m){
     vector<string> left, right, result;
     int middle = ((int)m.size()+ 1) / 2;
 
+    //left side
     for (int i = 0; i < middle; i++) {
         left.push_back(m[i]);
     }
 
+    //right side
     for (int i = middle; i < (int)m.size(); i++) {
         right.push_back(m[i]);
     }
@@ -96,6 +98,7 @@ vector<string> wordList ::  merge(vector<string> left, vector<string> right)
     }
     return result;
 }
+
 int wordList :: partition (int low, int high){
     string pivot = dictionary[high];    // pivot
     int i = (low - 1);  // Index of smaller element
@@ -118,14 +121,20 @@ bool wordList :: findWord(string word){
 	//Binary Search to check if word contained in dictionary
 	int i   = 0;
 	int end = (int)dictionary.size() - 1;
-	
-	while( i <= end ){
-		int middle = i + (end - 1) / 2;
-		if(dictionary[middle] == word)
+	int sz  = word.size() - 1;
+cout  << word<<" word sz: " << sz << " size : " << end << endl;	
+	while( end >= i ){
+		int middle = (i + (end - 1)) / 2;
+cout << dictionary[middle].substr(0,sz) << endl;
+		if(dictionary[middle].substr(0,sz) == word){
+			if(dictionary[middle] == word){
+				cout << word << endl;
+				//add word to foundWords vector and so that while loop can stop
+			}	
 			return true;
-		
+		}
 		//Look at right side if word > middle
-		if(dictionary[middle] < word) 
+		if(dictionary[middle].substr(0,sz) > word) 
 			i = middle + 1;
 		//Look at Left side
 		else
@@ -136,7 +145,7 @@ bool wordList :: findWord(string word){
 }
 
 
-//Function definitions for class grid
+/* -----Function definitions for class grid----- */
 void grid :: readGrid(string gridFile){
 	//Read from gridFile text file and push to 2D vector 'letterGrid'
 	vector<string> tmp;
@@ -173,15 +182,94 @@ void grid :: printGrid(){
 }
 
 
-//Global function definitions
-void findMatches( string dictionaryFile, string gridFile, int sortAlgorithm){
+/* -----Global function definitions----- */
+void findMatches(wordList words, grid puzzle){	
+	string testWord1, testWord2, testWord3, testWord4, testWord5, testWord6, testWord7, testWord8;
+	int dimension  = puzzle.letterGrid.size();
+puzzle.printGrid();
+cout << dimension <<"here  "<<puzzle.letterGrid[dimension-1][1] << endl;
+	for(int i = 1; i <= dimension; i++){ //rows 
+		for(int j = 0; j < dimension; j++){ //columns
+ 
+			testWord1  = puzzle.letterGrid[i][j];
+			testWord2  = puzzle.letterGrid[i][j];
+			testWord3  = puzzle.letterGrid[i][j];
+			testWord4  = puzzle.letterGrid[i][j];
+			testWord5  = puzzle.letterGrid[i][j];
+			testWord6  = puzzle.letterGrid[i][j];
+			testWord7  = puzzle.letterGrid[i][j];
+			testWord8  = puzzle.letterGrid[i][j];
+
+			for( int l = 1; l < dimension ; l++){
+				int mvD = i+l;
+				int mvU = i-l;
+				int mvR = j+l;
+				int mvL = j-l;
+cout<< mvD << mvU << mvR << mvL << endl;
+				//Grid wrapping
+				if(mvU < 1) //reaches top end
+					mvU  = dimension-1; //go to bottom
+				
+				if(mvD == dimension) //reaches bottom end
+					mvD  = 1; //go to top
+				
+				if(mvR == dimension) //reaches right end
+					mvR = 0; //go to left end
+				
+				if(mvL < 0) //reaches left end
+					mvL = dimension-2; //go to right end
+				
+cout<< mvD << " " << mvU << " " << mvR<< " " << mvL << endl;
+				//Expnding test words in 8 directions
+				if (words.findWord(testWord1 + puzzle.letterGrid[mvU][j]))
+					testWord1 = testWord1 + puzzle.letterGrid[mvU][j];
+
+				if (words.findWord(testWord2 + puzzle.letterGrid[i][mvR]))
+					testWord2 = testWord2 + puzzle.letterGrid[i][mvR];
+
+				if (words.findWord(testWord3 + puzzle.letterGrid[mvD][j]))
+					testWord1 = testWord1 + puzzle.letterGrid[mvD][j];
+
+				if (words.findWord(testWord4 + puzzle.letterGrid[i][mvL])) 
+					testWord1 = testWord1 + puzzle.letterGrid[i][mvL];
+cout << "Good Until Here" <<endl;
+			   	if (words.findWord(testWord5 + puzzle.letterGrid[mvU][mvR])) 
+					testWord1 = testWord1 + puzzle.letterGrid[mvU][mvR];
+
+				if (words.findWord(testWord6 + puzzle.letterGrid[mvD][mvR])) 
+					testWord1 = testWord1 + puzzle.letterGrid[mvD][mvR];
+
+			   	if (words.findWord(testWord7 + puzzle.letterGrid[mvU][mvL])) 
+					testWord1 = testWord1 + puzzle.letterGrid[mvU][mvL];
+
+				if (words.findWord(testWord8 + puzzle.letterGrid[mvD][mvL])) 
+					testWord1 = testWord1 + puzzle.letterGrid[mvD][mvL];
+
+			}
+		}
+	} 
+}
+
+void search( int sortAlgorithm){
 	wordList words;
 	grid puzzle;
-	string testWord;
+	string dictFile, gridFile;
+	clock_t start, sortTime, end;
 
+	//File name inputs
+	cout << "Enter Dictionary file name: ";
+//	cin  >> dictFile;
+	cout << "Enter Grid file name: ";
+//	cin  >> gridFile; 
+dictFile = "wordlist.txt";
+gridFile = "input15.txt";	
 	//read txt files
-	words.readDictionary(dictionaryFile);
+	words.readDictionary(dictFile);
 	puzzle.readGrid(gridFile);
+//words.printDictionary();
+	//Start Timer
+	start = clock();
+	cout << "\nTimer Started" << endl;
 
 	//sort dictionary based on 'sortAlgorithm'
 	if( sortAlgorithm == 1)
@@ -189,35 +277,18 @@ void findMatches( string dictionaryFile, string gridFile, int sortAlgorithm){
 	else if( sortAlgorithm == 2)
 		words.quickSort(0,words.dictionary.size()-1);
 	else if( sortAlgorithm == 3)
-		words.mergeSort(words.dictionary);
-
-	//test if grid letter combos match 
-		//possibly another recursive function to call all possible letter combonations
-
-	//print word if match
-	if(words.findWord(testWord))
-		cout << testWord << endl;
-}
-
-void search( int sortAlgorith){
-	string dictFile, gridFile;
-	clock_t start, end;
-
-	//File name inputs
-	cout << "Enter Dictionary file name: ";
-	cin  >> dictFile;
-	cout << "Enter Grid file name: ";
-	cin  >> gridFile; 
-	
-	//Start Timer
-	start = clock();
-	cout << "\nTimer Started" << endl;
+		words.dictionary = words.mergeSort(words.dictionary);
+//words.printDictionary();	
+	//Take time to sort
+	sortTime = clock();
 
 	//Run word search solver
-	findMatches( dictFile, gridFile, sortAlgorith);
+	findMatches(words, puzzle);
 	
 	//Stop timer
 	end = clock();
-	float tot_Time = float(end - start) / float(CLOCKS_PER_SEC);
-	cout << "Runtime: "<< fixed << tot_Time << " seconds" << endl;
+	float tot_sortTime = float(sortTime - start) / float(CLOCKS_PER_SEC);
+	float tot_Time     = float(end - start) / float(CLOCKS_PER_SEC);
+	cout << "SortTime: " << fixed << tot_sortTime << " seconds" << endl;
+	cout << "Runtime: "  << fixed << tot_Time << " seconds" << endl;
 }

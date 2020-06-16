@@ -200,14 +200,14 @@ cout << dimension <<"here  "<<puzzle.letterGrid[dimension-1][1] << endl;
 			testWord6  = puzzle.letterGrid[i][j];
 			testWord7  = puzzle.letterGrid[i][j];
 			testWord8  = puzzle.letterGrid[i][j];
-<<<<<<< HEAD
+
 			
 			int mvD(i), mvU(i), mvR(j), mvL(j);
 			bool p1(true), p2(true), p3(true), p4(true);
 			cout << "Source point: (" << j << ", " << i << ")"<< endl; 
-=======
 
->>>>>>> a8f93605eb41e20c7834f58a3d4fb8a28f4eca1e
+
+
 			for( int l = 1; l < dimension ; l++){
 				int mvD = i+l;
 				int mvU = i-l;
@@ -231,7 +231,7 @@ cout<< mvD << mvU << mvR << mvL << endl;
 				//if (positive diagonal DOWN direction where mvL < 0 || mvD > size() and mvD)
 					//swap i and j
 				//if (negative diagonal UP direction where mvL < 0
-<<<<<<< HEAD
+
 //cout<< mvU << " " << mvU << " " << mvU<< " " << mvU << endl;
 
 //				testWord1 = testWord1 + puzzle.letterGrid[mvU][j];
@@ -345,11 +345,7 @@ gridFile = "C:\\Users\\cohen\\Github\\WordSearch\\input15.txt";
 
 	//Run word search solver
 	findMatches(words, puzzle);
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> a8f93605eb41e20c7834f58a3d4fb8a28f4eca1e
 	//Stop timer
 	end = clock();
 	float tot_sortTime = float(sortTime - start) / float(CLOCKS_PER_SEC);

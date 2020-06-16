@@ -224,6 +224,7 @@ cout<< mvD << " " << mvU << " " << mvR<< " " << mvL << endl;
 				if (words.findWord(testWord1 + puzzle.letterGrid[mvU][j]))
 					testWord1 = testWord1 + puzzle.letterGrid[mvU][j];
 
+<<<<<<< HEAD
 				if (words.findWord(testWord2 + puzzle.letterGrid[i][mvR]))
 					testWord2 = testWord2 + puzzle.letterGrid[i][mvR];
 
@@ -235,6 +236,15 @@ cout<< mvD << " " << mvU << " " << mvR<< " " << mvL << endl;
 cout << "Good Until Here" <<endl;
 			   	if (words.findWord(testWord5 + puzzle.letterGrid[mvU][mvR])) 
 					testWord1 = testWord1 + puzzle.letterGrid[mvU][mvR];
+=======
+	//sort dictionary based on 'sortAlgorithm'
+	if( sortAlgorithm == 1)
+		words.insertionSort();
+	else if( sortAlgorithm == 2)
+		words.quickSort(0,words.dictionary.size()-1);
+	else if( sortAlgorithm == 3)
+		words.dictionary = words.mergeSort(words.dictionary);
+>>>>>>> origin/master
 
 				if (words.findWord(testWord6 + puzzle.letterGrid[mvD][mvR])) 
 					testWord1 = testWord1 + puzzle.letterGrid[mvD][mvR];

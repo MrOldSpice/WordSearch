@@ -118,23 +118,25 @@ int wordList :: partition (int low, int high){
 }
 
 bool wordList :: findWord(string word){
-	//Binary Search to check if word contained in dictionary
+//Binary Search to check if word contained in dictionary
 	int i   = 0;
 	int end = (int)dictionary.size() - 1;
-	int sz  = word.size() - 1;
-cout  << word<<" word sz: " << sz << " size : " << end << endl;	
-	while( end >= i ){
+	int sz  = word.size();
+//word = "mot";
+//cout  << word << endl;	
+	while( end >= i+1 ){
 		int middle = (i + (end - 1)) / 2;
 //cout << dictionary[middle].substr(0,sz) << endl;
 		if(dictionary[middle].substr(0,sz) == word){
+			//cout << word << endl;
 			if(dictionary[middle] == word){
-				cout << word << endl;
+				cout << "\n" << word << "\n" << endl;
 				//add word to foundWords vector and so that while loop can stop
 			}	
 			return true;
 		}
 		//Look at right side if word > middle
-		if(dictionary[middle].substr(0,sz) > word) 
+		if(dictionary[middle].substr(0,sz) < word) 
 			i = middle + 1;
 		//Look at Left side
 		else
@@ -200,13 +202,16 @@ cout << dimension <<"here  "<<puzzle.letterGrid[dimension-1][1] << endl;
 			testWord6  = puzzle.letterGrid[i][j];
 			testWord7  = puzzle.letterGrid[i][j];
 			testWord8  = puzzle.letterGrid[i][j];
-
+			
+			int mvD(i), mvU(i), mvR(j), mvL(j);
+			bool p1(true), p2(true), p3(true), p4(true);
+			cout << "Source point: (" << i << ", " << j << ")"<< endl; 
 			for( int l = 1; l < dimension ; l++){
-				int mvD = i+l;
-				int mvU = i-l;
-				int mvR = j+l;
-				int mvL = j-l;
-cout<< mvD << mvU << mvR << mvL << endl;
+				mvD++;
+				mvU--;
+				mvR++;
+				mvL--;
+//cout<< mvU << endl;
 				//Grid wrapping
 				if(mvU < 1) //reaches top end
 					mvU  = dimension-1; //go to bottom
@@ -224,22 +229,48 @@ cout<< mvD << mvU << mvR << mvL << endl;
 				//if (positive diagonal DOWN direction where mvL < 0 || mvD > size() and mvD)
 					//swap i and j
 				//if (negative diagonal UP direction where mvL < 0
-cout<< mvD << " " << mvU << " " << mvR<< " " << mvL << endl;
-				//Expnding test words in 8 directions
-				if (words.findWord(testWord1 + puzzle.letterGrid[mvU][j]))
-					testWord1 = testWord1 + puzzle.letterGrid[mvU][j];
+//cout<< mvU << " " << mvU << " " << mvU<< " " << mvU << endl;
 
-				if (words.findWord(testWord2 + puzzle.letterGrid[i][mvR]))
-					testWord2 = testWord2 + puzzle.letterGrid[i][mvR];
+//				testWord1 = testWord1 + puzzle.letterGrid[mvU][j];
+//				cout << testWord1 << endl;
+//				words.findWord(testWord1);
 
-				if (words.findWord(testWord3 + puzzle.letterGrid[mvD][j]))
-					testWord1 = testWord1 + puzzle.letterGrid[mvD][j];
-
-				if (words.findWord(testWord4 + puzzle.letterGrid[i][mvL])) 
-					testWord1 = testWord1 + puzzle.letterGrid[i][mvL];
-cout << "Good Until Here" <<endl; //must account for diagonal issue add possible counter to solve issue
+				bool result;
+				testWord1.append(puzzle.letterGrid[mvU][j]);
+				result = words.findWord(testWord1);
+					
+				testWord2.append(puzzle.letterGrid[i][mvR]);
+				result = words.findWord(testWord2);
 				
-			   	if (words.findWord(testWord5 + puzzle.letterGrid[mvU][mvR])) 
+				testWord3.append(puzzle.letterGrid[mvD][j]);
+				result = words.findWord(testWord3);
+		
+				testWord4.append(puzzle.letterGrid[i][mvL]);
+				result = words.findWord(testWord4);
+				
+
+
+
+				//Expnding test words in 8 directions
+/*				if (words.findWord(testWord1 + puzzle.letterGrid[mvU][j]) && p1 )
+					testWord1.append(puzzle.letterGrid[mvU][j]);
+				else p1 = false;
+				
+				if (words.findWord(testWord2 + puzzle.letterGrid[i][mvR]) && p2 )
+					testWord2 = testWord2 + puzzle.letterGrid[i][mvR];
+				else p2 = false;
+				
+				if (words.findWord(testWord3 + puzzle.letterGrid[mvD][j]) && p3)
+					testWord3 = testWord3 + puzzle.letterGrid[mvD][j];
+				else p3 = false;
+
+				if (words.findWord(testWord4 + puzzle.letterGrid[i][mvL]) && p4) 
+					testWord4 = testWord4 + puzzle.letterGrid[i][mvL];
+				else p4 = false;
+*/				
+//cout << "Good Until Here" <<endl; //must account for diagonal issue add possible counter to solve issue
+				
+/*			   	if (words.findWord(testWord5 + puzzle.letterGrid[mvU][mvR])) 
 					testWord1 = testWord1 + puzzle.letterGrid[mvU][mvR];
 
 				if (words.findWord(testWord6 + puzzle.letterGrid[mvD][mvR])) 
@@ -250,7 +281,7 @@ cout << "Good Until Here" <<endl; //must account for diagonal issue add possible
 
 				if (words.findWord(testWord8 + puzzle.letterGrid[mvD][mvL])) 
 					testWord1 = testWord1 + puzzle.letterGrid[mvD][mvL];
-
+*/
 			}
 		}
 	} 
@@ -267,7 +298,7 @@ void search( int sortAlgorithm){
 //	cin  >> dictFile;
 	cout << "Enter Grid file name: ";
 //	cin  >> gridFile; 
-dictFile = "wordlist.txt";
+dictFile = "wordlist2.txt";
 gridFile = "input15.txt";	
 	//read txt files
 	words.readDictionary(dictFile);
@@ -290,7 +321,14 @@ gridFile = "input15.txt";
 
 	//Run word search solver
 	findMatches(words, puzzle);
-	
+
+/*	if (words.findWord("motivat"))
+		cout << "FOUND" << endl;
+	else cout <<"NOT FOUND" << endl;
+	if (words.findWord("motivate"))
+		cout << "FOUND" << endl;
+	else cout << "NOT FOUND" << endl;
+*/
 	//Stop timer
 	end = clock();
 	float tot_sortTime = float(sortTime - start) / float(CLOCKS_PER_SEC);

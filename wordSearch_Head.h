@@ -7,7 +7,6 @@
 #include <iostream>
 #include <fstream>
 #include <list>
-#include <bits/stdc++.h>
 using namespace std;
 
 

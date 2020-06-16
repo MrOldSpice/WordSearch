@@ -205,7 +205,7 @@ cout << dimension <<"here  "<<puzzle.letterGrid[dimension-1][1] << endl;
 			
 			int mvD(i), mvU(i), mvR(j), mvL(j);
 			bool p1(true), p2(true), p3(true), p4(true);
-			cout << "Source point: (" << i << ", " << j << ")"<< endl; 
+			cout << "Source point: (" << j << ", " << i << ")"<< endl; 
 			for( int l = 1; l < dimension ; l++){
 				mvD++;
 				mvU--;
@@ -235,41 +235,38 @@ cout << dimension <<"here  "<<puzzle.letterGrid[dimension-1][1] << endl;
 //				cout << testWord1 << endl;
 //				words.findWord(testWord1);
 
+
+				//Expanding testWord_ in 8 directions
 				bool result;
-				testWord1.append(puzzle.letterGrid[mvU][j]);
+				//Horizontal and Verticle
+				testWord1 = testWord1 + puzzle.letterGrid[mvU][j];
 				result = words.findWord(testWord1);
 					
-				testWord2.append(puzzle.letterGrid[i][mvR]);
+				testWord2 = testWord2 + puzzle.letterGrid[i][mvR];
 				result = words.findWord(testWord2);
 				
-				testWord3.append(puzzle.letterGrid[mvD][j]);
+				testWord3 = testWord3 + puzzle.letterGrid[mvD][j];
 				result = words.findWord(testWord3);
 		
-				testWord4.append(puzzle.letterGrid[i][mvL]);
+				testWord4 = testWord4 + puzzle.letterGrid[i][mvL];
 				result = words.findWord(testWord4);
 				
-
-
-
-				//Expnding test words in 8 directions
-/*				if (words.findWord(testWord1 + puzzle.letterGrid[mvU][j]) && p1 )
-					testWord1.append(puzzle.letterGrid[mvU][j]);
-				else p1 = false;
 				
-				if (words.findWord(testWord2 + puzzle.letterGrid[i][mvR]) && p2 )
-					testWord2 = testWord2 + puzzle.letterGrid[i][mvR];
-				else p2 = false;
-				
-				if (words.findWord(testWord3 + puzzle.letterGrid[mvD][j]) && p3)
-					testWord3 = testWord3 + puzzle.letterGrid[mvD][j];
-				else p3 = false;
-
-				if (words.findWord(testWord4 + puzzle.letterGrid[i][mvL]) && p4) 
-					testWord4 = testWord4 + puzzle.letterGrid[i][mvL];
-				else p4 = false;
-*/				
 //cout << "Good Until Here" <<endl; //must account for diagonal issue add possible counter to solve issue
-				
+				int tempX, tempY;
+				if( mvU == (dimension-1) || mvR == 0){
+					tempY = mvR;
+					tempX = mvU;
+				}
+				else{
+					tempY = mvU;
+					tempX = mvR;
+				}
+			 	if( !(mvR == 0 && mvU == 0) || !(mvR == dimension-1 && mvU == dimension-1)){
+					testWord5 = testWord5 + puzzle.letterGrid[tempY][tempX];				
+					result = words.findWord(testWord5);
+					cout << testWord5 << endl;
+				}
 /*			   	if (words.findWord(testWord5 + puzzle.letterGrid[mvU][mvR])) 
 					testWord1 = testWord1 + puzzle.letterGrid[mvU][mvR];
 
@@ -303,7 +300,7 @@ gridFile = "input15.txt";
 	//read txt files
 	words.readDictionary(dictFile);
 	puzzle.readGrid(gridFile);
-//words.printDictionary();
+
 	//Start Timer
 	start = clock();
 	cout << "\nTimer Started" << endl;
@@ -315,20 +312,13 @@ gridFile = "input15.txt";
 		words.quickSort(0,words.dictionary.size()-1);
 	else if( sortAlgorithm == 3)
 		words.dictionary = words.mergeSort(words.dictionary);
-//words.printDictionary();	
+	
 	//Take time to sort
 	sortTime = clock();
 
 	//Run word search solver
 	findMatches(words, puzzle);
 
-/*	if (words.findWord("motivat"))
-		cout << "FOUND" << endl;
-	else cout <<"NOT FOUND" << endl;
-	if (words.findWord("motivate"))
-		cout << "FOUND" << endl;
-	else cout << "NOT FOUND" << endl;
-*/
 	//Stop timer
 	end = clock();
 	float tot_sortTime = float(sortTime - start) / float(CLOCKS_PER_SEC);

@@ -1,21 +1,24 @@
 #ifndef WORDSEARCH_SEARCH_H
 #define WORDSEARCH_SEARCH_H
 
-#include <iostream>
-#include <cstdlib>
-#include <string>
-#include <cstdio>
+#include<iostream>
+#include<cstdlib>
+#include<string>
+#include<cstdio>
 #include <vector>
-#include <time.h>
 #include <fstream>
-using namespace std;
 
+
+using namespace std;
+const int tableSize = 2311;
+
+/*
 class grid {
 public:
     vector<vector<string>> letterGrid;
     void readGrid();
 };
-
+*/
 class hashDictionary{
 public:
     int index;
@@ -26,15 +29,15 @@ public:
 class hashMapTable{
 private:
     hashDictionary **wordlist;
-    const int tableSize;
 public:
     hashMapTable();
 
-    int hashFunct(int);
-    void insert();
-    int searchkey(int);
-    void remove(int);
-
+    int hash(int);
+    void addItem(int, string);
+    string inList(int);
+    void deleteItem(int);
+    void read2hash(string);
+    void hash2print();
     ~hashMapTable();
 };
 

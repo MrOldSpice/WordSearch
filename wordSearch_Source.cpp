@@ -118,25 +118,23 @@ int wordList :: partition (int low, int high){
 }
 
 bool wordList :: findWord(string word){
-//Binary Search to check if word contained in dictionary
+	//Binary Search to check if word contained in dictionary
 	int i   = 0;
-	int end = (int)dictionary.size() - 1;
-	int sz  = word.size();
-//word = "mot";
-//cout  << word << endl;	
-	while( end >= i+1 ){
+	int end = (int)dictionary.size() -1;
+	int sz  = word.size() - 1;
+//cout  << word<<" word sz: " << sz << " size : " << end << " word : " << word  << endl;
+	while( end >= i ){
 		int middle = (i + (end - 1)) / 2;
 //cout << dictionary[middle].substr(0,sz) << endl;
 		if(dictionary[middle].substr(0,sz) == word){
-			//cout << word << endl;
 			if(dictionary[middle] == word){
-				cout << "\n" << word << "\n" << endl;
+				cout << word << endl;
 				//add word to foundWords vector and so that while loop can stop
 			}	
 			return true;
 		}
 		//Look at right side if word > middle
-		if(dictionary[middle].substr(0,sz) < word) 
+		if(dictionary[middle].substr(0,sz) > word) 
 			i = middle + 1;
 		//Look at Left side
 		else
@@ -191,7 +189,7 @@ void findMatches(wordList words, grid puzzle){
 	int dimension  = puzzle.letterGrid.size();
 puzzle.printGrid();
 cout << dimension <<"here  "<<puzzle.letterGrid[dimension-1][1] << endl;
-	for(int i = 0; i <= dimension; i++){ //rows 
+	for(int i = 0; i <= dimension; i++){ //rows
 		for(int j = 0; j < dimension; j++){ //columns
  
 			testWord1  = puzzle.letterGrid[i][j];
@@ -202,16 +200,20 @@ cout << dimension <<"here  "<<puzzle.letterGrid[dimension-1][1] << endl;
 			testWord6  = puzzle.letterGrid[i][j];
 			testWord7  = puzzle.letterGrid[i][j];
 			testWord8  = puzzle.letterGrid[i][j];
+<<<<<<< HEAD
 			
 			int mvD(i), mvU(i), mvR(j), mvL(j);
 			bool p1(true), p2(true), p3(true), p4(true);
 			cout << "Source point: (" << j << ", " << i << ")"<< endl; 
+=======
+
+>>>>>>> a8f93605eb41e20c7834f58a3d4fb8a28f4eca1e
 			for( int l = 1; l < dimension ; l++){
-				mvD++;
-				mvU--;
-				mvR++;
-				mvL--;
-//cout<< mvU << endl;
+				int mvD = i+l;
+				int mvU = i-l;
+				int mvR = j+l;
+				int mvL = j-l;
+cout<< mvD << mvU << mvR << mvL << endl;
 				//Grid wrapping
 				if(mvU < 1) //reaches top end
 					mvU  = dimension-1; //go to bottom
@@ -229,6 +231,7 @@ cout << dimension <<"here  "<<puzzle.letterGrid[dimension-1][1] << endl;
 				//if (positive diagonal DOWN direction where mvL < 0 || mvD > size() and mvD)
 					//swap i and j
 				//if (negative diagonal UP direction where mvL < 0
+<<<<<<< HEAD
 //cout<< mvU << " " << mvU << " " << mvU<< " " << mvU << endl;
 
 //				testWord1 = testWord1 + puzzle.letterGrid[mvU][j];
@@ -268,6 +271,25 @@ cout << dimension <<"here  "<<puzzle.letterGrid[dimension-1][1] << endl;
 					cout << testWord5 << endl;
 				}
 /*			   	if (words.findWord(testWord5 + puzzle.letterGrid[mvU][mvR])) 
+=======
+cout<< mvD << " " << mvU << " " << mvR<< " " << mvL << endl;
+				//Expnding test words in 8 directions
+				if (words.findWord(testWord1 + puzzle.letterGrid[mvU][j]))
+					testWord1 = testWord1 + puzzle.letterGrid[mvU][j];
+					cout << testWord1 << endl;
+				if (words.findWord(testWord2 + puzzle.letterGrid[i][mvR]))
+					testWord2 = testWord2 + puzzle.letterGrid[i][mvR];
+                    cout << testWord2 << endl;
+
+				//if (words.findWord(testWord3 + puzzle.letterGrid[mvD][j]))
+					testWord1 = testWord1 + puzzle.letterGrid[mvD][j];
+
+				//if (words.findWord(testWord4 + puzzle.letterGrid[i][mvL]))
+					testWord1 = testWord1 + puzzle.letterGrid[i][mvL];
+cout << "Good Until Here" <<endl; //must account for diagonal issue add possible counter to solve issue
+/*
+			   	if (words.findWord(testWord5 + puzzle.letterGrid[mvU][mvR])) 
+>>>>>>> a8f93605eb41e20c7834f58a3d4fb8a28f4eca1e
 					testWord1 = testWord1 + puzzle.letterGrid[mvU][mvR];
 
 				if (words.findWord(testWord6 + puzzle.letterGrid[mvD][mvR])) 
@@ -295,9 +317,14 @@ void search( int sortAlgorithm){
 //	cin  >> dictFile;
 	cout << "Enter Grid file name: ";
 //	cin  >> gridFile; 
-dictFile = "wordlist2.txt";
-gridFile = "input15.txt";	
-	//read txt files
+//dictFile = "wordlist.txt";
+//gridFile = "input15.txt";
+
+dictFile = "C:\\Users\\cohen\\Github\\WordSearch\\15x15.txt";
+gridFile = "C:\\Users\\cohen\\Github\\WordSearch\\input15.txt";
+
+
+    //read txt files
 	words.readDictionary(dictFile);
 	puzzle.readGrid(gridFile);
 
@@ -318,7 +345,11 @@ gridFile = "input15.txt";
 
 	//Run word search solver
 	findMatches(words, puzzle);
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> a8f93605eb41e20c7834f58a3d4fb8a28f4eca1e
 	//Stop timer
 	end = clock();
 	float tot_sortTime = float(sortTime - start) / float(CLOCKS_PER_SEC);

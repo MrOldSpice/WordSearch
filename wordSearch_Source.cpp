@@ -125,7 +125,7 @@ bool wordList :: findWord(string word){
 cout  << word<<" word sz: " << sz << " size : " << end << endl;	
 	while( end >= i ){
 		int middle = (i + (end - 1)) / 2;
-cout << dictionary[middle].substr(0,sz) << endl;
+//cout << dictionary[middle].substr(0,sz) << endl;
 		if(dictionary[middle].substr(0,sz) == word){
 			if(dictionary[middle] == word){
 				cout << word << endl;
@@ -162,7 +162,8 @@ void grid :: readGrid(string gridFile){
 				if(letter.compare(" ") != 0) 	
 					tmp.push_back(letter);
 			}
-			letterGrid.push_back(tmp);
+			if (row > 0)
+				letterGrid.push_back(tmp);
 			tmp.clear();
 			row++;
 		}
@@ -188,7 +189,7 @@ void findMatches(wordList words, grid puzzle){
 	int dimension  = puzzle.letterGrid.size();
 puzzle.printGrid();
 cout << dimension <<"here  "<<puzzle.letterGrid[dimension-1][1] << endl;
-	for(int i = 1; i <= dimension; i++){ //rows 
+	for(int i = 0; i <= dimension; i++){ //rows 
 		for(int j = 0; j < dimension; j++){ //columns
  
 			testWord1  = puzzle.letterGrid[i][j];
@@ -211,20 +212,23 @@ cout<< mvD << mvU << mvR << mvL << endl;
 					mvU  = dimension-1; //go to bottom
 				
 				if(mvD == dimension) //reaches bottom end
-					mvD  = 1; //go to top
+					mvD  = 0; //go to top
 				
 				if(mvR == dimension) //reaches right end
 					mvR = 0; //go to left end
 				
 				if(mvL < 0) //reaches left end
-					mvL = dimension-2; //go to right end
-				
+					mvL = dimension-1; //go to right end
+				//if (positive diagonal UP direction where (mvU < 0 and mvR) || (mvR > size() and mnU))
+					//swap i and j
+				//if (positive diagonal DOWN direction where mvL < 0 || mvD > size() and mvD)
+					//swap i and j
+				//if (negative diagonal UP direction where mvL < 0
 cout<< mvD << " " << mvU << " " << mvR<< " " << mvL << endl;
 				//Expnding test words in 8 directions
 				if (words.findWord(testWord1 + puzzle.letterGrid[mvU][j]))
 					testWord1 = testWord1 + puzzle.letterGrid[mvU][j];
 
-<<<<<<< HEAD
 				if (words.findWord(testWord2 + puzzle.letterGrid[i][mvR]))
 					testWord2 = testWord2 + puzzle.letterGrid[i][mvR];
 
@@ -233,18 +237,10 @@ cout<< mvD << " " << mvU << " " << mvR<< " " << mvL << endl;
 
 				if (words.findWord(testWord4 + puzzle.letterGrid[i][mvL])) 
 					testWord1 = testWord1 + puzzle.letterGrid[i][mvL];
-cout << "Good Until Here" <<endl;
+cout << "Good Until Here" <<endl; //must account for diagonal issue add possible counter to solve issue
+				
 			   	if (words.findWord(testWord5 + puzzle.letterGrid[mvU][mvR])) 
 					testWord1 = testWord1 + puzzle.letterGrid[mvU][mvR];
-=======
-	//sort dictionary based on 'sortAlgorithm'
-	if( sortAlgorithm == 1)
-		words.insertionSort();
-	else if( sortAlgorithm == 2)
-		words.quickSort(0,words.dictionary.size()-1);
-	else if( sortAlgorithm == 3)
-		words.dictionary = words.mergeSort(words.dictionary);
->>>>>>> origin/master
 
 				if (words.findWord(testWord6 + puzzle.letterGrid[mvD][mvR])) 
 					testWord1 = testWord1 + puzzle.letterGrid[mvD][mvR];

@@ -52,15 +52,14 @@ public:
     void deleteItem();
     void inList();
 };
-*/
-=======
->>>>>>> origin/master
 
     void addItem();
     void deleteItem();
     void inList();
 };
 */
+
+
 //Function findMatches
 // Will print words that are in dictionary and on the grid
 void findMatches(wordList, grid);

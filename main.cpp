@@ -1,38 +1,19 @@
 #include "wordSearch_Head.h"
-#include "search.h"
-#include "cmake-build-debug/search.h"
-
-string dictionaryFile = "C:\\Users\\cohen\\Github\\WordSearch\\wordlist.txt";
-string gridFile = "C:\\Users\\cohen\\Github\\WordSearch\\input15.txt";
+//#include "search.h"
+//#include "cmake-build-debug/search.h"
 
 int main(){
-	//int insertionSort(1), quickSort(2), mergeSort(3);
-	//search(2);
+	int choosenSort;
+	int insertionSort(1), quickSort(2), mergeSort(3);
 
-//USE BELOW FOR FASTER TESTING OF SORT ALGORITHMS
+	cout << "Choose Sorting Algorithm Number: \n 1.InsertionSort \n 2.QuckSort \n 3.MergeSort" <<endl;
+	cout << "Input: ";
+	cin >> choosenSort;
 
-	//wordList test;
-	//test.readDictionary("C:\\Users\\cohen\\Github\\WordSearch\\wordlist.txt");
-    //	test.printDictionary();
-
-    hashMapTable hash;
-    hash.read2hash(dictionaryFile);
-    hash.hash2print();
-
-    cout << "\n==================================================\n==================================================\n";
-    Heap<hashDictionary> heap;
-    heap.initializeMaxHeap(hash.wardlist);
-    heap.heapSort(hash.wardlist.size());
-
-    for(int i = 0; i<hash.wardlist.size(); i++){
-        cout << hash.wardlist[i].word << "\n";
-    }
-/*
-    	test.insertionSort();
-    	test.quickSort(0, test.dictionary.size()-1);
-    	test.dictionary = test.mergeSort(test.dictionary);
-
-    	test.printDictionary();
-*/
-
+	if( choosenSort == insertionSort )
+		search(insertionSort);
+	else if( choosenSort == quickSort ) 
+		search(quickSort);
+	else
+		search(mergeSort); 
 }

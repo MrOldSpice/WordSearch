@@ -2,42 +2,42 @@
 
 /* -----Function definitions for class wordList----- */
 void wordList :: readDictionary(string dictionaryFile ){
-    string line;// create a temp variable to store each line too
-    ifstream file (dictionaryFile);// open passed file to read from
-    if (file.is_open())// check to see if the file was opened
-    {
-        while ( getline (file,line) )// check to see if any lines remain
-        {
-            dictionary.push_back(line);// save the current line to the back of the vector container
+//read from dictionaryFile text file and push to vector 'dictionary'
+	string line;
+    	ifstream file (dictionaryFile); //open file
+    	if (file.is_open()){
+
+        	while ( getline (file,line) ){ //while lines exist
+			dictionary.push_back(line);	
+		}
+
+        	file.close();    
 	}
-        file.close();// close the passed file
-    }
-    else cout << "Unable to open file";// error report for failed file open
-    //read from dictionaryFile text file and push to vector 'dictionary'
+    else cout << "Unable to open file";
 }
 
 void wordList :: printDictionary(){
-    for (int i = 0; i < (int)dictionary.size(); ++i) {// iterate through the length of the current dictionary
-        cout << dictionary[i] << '\n';// print the current string in dictionary to console
-    }
-	//print vector 'dictionary'
+	for (int i = 0; i < (int)dictionary.size(); ++i){
+        	cout << dictionary[i] << '\n';
+    	}
 }
 
 void wordList :: insertionSort(){
-    for (int i = 1; i < (int)dictionary.size(); i++) {
-        string key = dictionary[i];
-        int j = i - 1;
-        while (j >= 0 && dictionary[j] > key) {
-           dictionary[j + 1] = dictionary [j];
-            j = j - 1;
-        }
-        dictionary[j + 1] = key;
-    }
-	//sort vector 'dictionary' with insertion sort by letter
+//sort vector 'dictionary' with insertion sort by letter
+	for (int i = 1; i < (int)dictionary.size(); i++) {
+        	string key = dictionary[i];
+        	int j = i - 1;
+        	while (j >= 0 && dictionary[j] > key) {
+           		dictionary[j + 1] = dictionary [j];
+            		j = j - 1;
+        	}
+        	dictionary[j + 1] = key;
+    	}
 }
 
 void wordList :: quickSort(int low, int high){
-    if (low < high){
+	
+	if (low < high){
         /* pi is partitioning index, arr[p] is now
            at right place */
         int pi = partition(low, high);
@@ -50,91 +50,113 @@ void wordList :: quickSort(int low, int high){
 }
 
 vector<string> wordList :: mergeSort(vector<string> m){
-    if (m.size() <= 1)
-        return m;
+    	
+	if (m.size() <= 1)
+        	return m;
 
-    vector<string> left, right, result;
-    int middle = ((int)m.size()+ 1) / 2;
+    	vector<string> left, right, result;
+    	int middle = ((int)m.size()+ 1) / 2;
 
-    //left side
-    for (int i = 0; i < middle; i++) {
-        left.push_back(m[i]);
-    }
+    	//left side
+    	for (int i = 0; i < middle; i++) {
+        	left.push_back(m[i]);
+    	}
 
-    //right side
-    for (int i = middle; i < (int)m.size(); i++) {
-        right.push_back(m[i]);
-    }
+    	//right side
+    	for (int i = middle; i < (int)m.size(); i++) {
+        	right.push_back(m[i]);
+    	}
 
-    left = mergeSort(left);
-    right = mergeSort(right);
-    result = merge(left, right);
+    	left = mergeSort(left);
+    	right = mergeSort(right);
+    	result = merge(left, right);
 
-    return result;
+    	return result;
 }
 
-vector<string> wordList ::  merge(vector<string> left, vector<string> right)
-{
-    vector<string> result;
-    while ((int)left.size() > 0 || (int)right.size() > 0) {
+vector<string> wordList ::  merge(vector<string> left, vector<string> right){
+    
+	vector<string> result;
+    	while ((int)left.size() > 0 || (int)right.size() > 0) {
         if ((int)left.size() > 0 && (int)right.size() > 0) {
-            if ((string)left.front() <= (string)right.front()) {
-                result.push_back((string)left.front());
-                left.erase(left.begin());
-            }
-            else {
-                result.push_back((string)right.front());
-                right.erase(right.begin());
-            }
-        }  else if ((int)left.size() > 0) {
-            for (int i = 0; i < (int)left.size(); i++)
-                result.push_back(left[i]);
-            break;
-        }  else if ((int)right.size() > 0) {
-            for (int i = 0; i < (int)right.size(); i++)
-                result.push_back(right[i]);
-            break;
+            	if ((string)left.front() <= (string)right.front()) {
+                	result.push_back((string)left.front());
+                	left.erase(left.begin());
+            	}
+            	else{
+                	result.push_back((string)right.front());
+                	right.erase(right.begin());
+            	}
+        }
+	else if ((int)left.size() > 0) {
+            	for (int i = 0; i < (int)left.size(); i++)
+                	result.push_back(left[i]);
+            	break;
+        }  
+	else if ((int)right.size() > 0) {
+            	for (int i = 0; i < (int)right.size(); i++)
+                	result.push_back(right[i]);
+            	break;
         }
     }
-    return result;
+    
+	return result;
 }
 
 int wordList :: partition (int low, int high){
-    string pivot = dictionary[high];    // pivot
-    int i = (low - 1);  // Index of smaller element
+    	string pivot = dictionary[high];    // pivot
+    	int i = (low - 1);  // Index of smaller element
 
-    for (int j = low; j <= high- 1; j++)
-    {
-        // If current element is smaller than or
-        // equal to pivot
-        if (dictionary[j] <= pivot)
-        {
-            i++;    // increment index of smaller element
-            swap(dictionary[i], dictionary[j]);
-        }
-    }
-    swap(dictionary[i + 1], dictionary[high]);
-    return (i + 1);
+    	for (int j = low; j <= high- 1; j++)
+    	{
+        	// If current element is smaller than or
+        	// equal to pivot
+        	if (dictionary[j] <= pivot){
+            	i++;    // increment index of smaller element
+            	swap(dictionary[i], dictionary[j]);
+        	}
+    	}
+    	swap(dictionary[i + 1], dictionary[high]);
+    	return (i + 1);
 }
 
 bool wordList :: findWord(string word){
 	//Binary Search to check if word contained in dictionary
 	int i   = 0;
 	int end = (int)dictionary.size() -1;
-	int sz  = word.size() - 1;
-//cout  << word<<" word sz: " << sz << " size : " << end << " word : " << word  << endl;
-	while( end >= i ){
-		int middle = (i + (end - 1)) / 2;
-//cout << dictionary[middle].substr(0,sz) << endl;
-		if(dictionary[middle].substr(0,sz) == word){
-			if(dictionary[middle] == word){
-				cout << word << endl;
-				//add word to foundWords vector and so that while loop can stop
-			}	
+	int sz  = word.size();
+
+//cout  << " word : " << word  << endl;
+	
+	//if word is contained in dictionary
+	while( end >= i+1 ){
+		int middle = (i + end) / 2;
+		
+		if(dictionary[middle] == word)	
+			cout << "\nFound: " << word << endl;
+
+		//Look at right side if word > middle
+		if(dictionary[middle] < word) 
+			i = middle + 1;
+		//Look at Left side
+		else
+			end = middle - 1;
+	}
+
+
+	//if word is contained in part of a dictionary word
+	i   = 0;
+	end = (int)dictionary.size() -1;
+	while( end >= i+1 ){
+		int middle = (i + end) / 2;
+	
+		if(dictionary[middle].substr(0,sz) == word){	
+//			cout << "Contained" << endl;
 			return true;
 		}
+
 		//Look at right side if word > middle
-		if(dictionary[middle].substr(0,sz) > word) 
+		if(dictionary[middle].substr(0,sz) < word) 
 			i = middle + 1;
 		//Look at Left side
 		else
@@ -151,7 +173,7 @@ void grid :: readGrid(string gridFile){
 	vector<string> tmp;
 	string line, letter;
 	unsigned row = 0;
-		
+			
 	ifstream file(gridFile);
 	if (file.is_open()){
 		while(getline(file, line)){ //while content in files
@@ -185,13 +207,16 @@ void grid :: printGrid(){
 
 /* -----Global function definitions----- */
 void findMatches(wordList words, grid puzzle){	
-	string testWord1, testWord2, testWord3, testWord4, testWord5, testWord6, testWord7, testWord8;
+
 	int dimension  = puzzle.letterGrid.size();
-puzzle.printGrid();
-cout << dimension <<"here  "<<puzzle.letterGrid[dimension-1][1] << endl;
-	for(int i = 0; i <= dimension; i++){ //rows
+	string testWord1, testWord2, testWord3, testWord4, testWord5, testWord6, testWord7, testWord8;
+
+	//cycle through all grid points
+	for(int i = 0; i < dimension; i++){ //rows
 		for(int j = 0; j < dimension; j++){ //columns
- 
+// 			cout << "Source point: (" << j << ", " << i << ")"<< endl; //print location
+
+		//Assign initial locations to all 8 travel directions
 			testWord1  = puzzle.letterGrid[i][j];
 			testWord2  = puzzle.letterGrid[i][j];
 			testWord3  = puzzle.letterGrid[i][j];
@@ -202,106 +227,96 @@ cout << dimension <<"here  "<<puzzle.letterGrid[dimension-1][1] << endl;
 			testWord8  = puzzle.letterGrid[i][j];
 
 			
+		//Horizontal and Verticle test
 			int mvD(i), mvU(i), mvR(j), mvL(j);
-			bool p1(true), p2(true), p3(true), p4(true);
-			cout << "Source point: (" << j << ", " << i << ")"<< endl; 
-
-
-
 			for( int l = 1; l < dimension ; l++){
-				int mvD = i+l;
-				int mvU = i-l;
-				int mvR = j+l;
-				int mvL = j-l;
-cout<< mvD << mvU << mvR << mvL << endl;
-				//Grid wrapping
-				if(mvU < 1) //reaches top end
-					mvU  = dimension-1; //go to bottom
+				mvD++;	mvU--; //verticle movements
+				mvR++;  mvL--; //horizontal movements
+
+				//Grid wrapping Edge Cases
+				if(mvU < 1) //reaches top end, go to bottom
+					mvU  = dimension-1;
 				
-				if(mvD == dimension) //reaches bottom end
-					mvD  = 0; //go to top
+				if(mvD == dimension) //reaches bottom end, go to top
+					mvD  = 0;
 				
-				if(mvR == dimension) //reaches right end
-					mvR = 0; //go to left end
+				if(mvR == dimension) //reaches right end, go to left end
+					mvR = 0;
 				
-				if(mvL < 0) //reaches left end
-					mvL = dimension-1; //go to right end
-				//if (positive diagonal UP direction where (mvU < 0 and mvR) || (mvR > size() and mnU))
-					//swap i and j
-				//if (positive diagonal DOWN direction where mvL < 0 || mvD > size() and mvD)
-					//swap i and j
-				//if (negative diagonal UP direction where mvL < 0
+				if(mvL < 0) //reaches left end, go to right end
+					mvL = dimension-1;
 
-//cout<< mvU << " " << mvU << " " << mvU<< " " << mvU << endl;
-
-//				testWord1 = testWord1 + puzzle.letterGrid[mvU][j];
-//				cout << testWord1 << endl;
-//				words.findWord(testWord1);
-
-
-				//Expanding testWord_ in 8 directions
-				bool result;
-				//Horizontal and Verticle
+				//compound testWords and test if valid
 				testWord1 = testWord1 + puzzle.letterGrid[mvU][j];
-				result = words.findWord(testWord1);
+				words.findWord(testWord1);
 					
 				testWord2 = testWord2 + puzzle.letterGrid[i][mvR];
-				result = words.findWord(testWord2);
+				words.findWord(testWord2);
 				
 				testWord3 = testWord3 + puzzle.letterGrid[mvD][j];
-				result = words.findWord(testWord3);
+				words.findWord(testWord3);
 		
 				testWord4 = testWord4 + puzzle.letterGrid[i][mvL];
-				result = words.findWord(testWord4);
+				words.findWord(testWord4);				
+			}				
+
+
+		//Positive Diagonal Checks
+			mvU = i;  mvD = i;  mvR = j;  mvL = j; //ReInitialize movements
+			int maxVisit = i + j;
+			int count = 0;
+			while (count < maxVisit ){
+				int prevUp(mvU), prevDown(mvD), prevRight(mvR), prevLeft(mvL);//store previous position
+				mvU--;  mvD++; //vertical movements
+				mvL--;  mvR++; //horizontal movements
+
+			//Positive diagonal UP 				
+				if( mvU < 0 || mvR > (dimension-1)){ //Wrapping Edge Case
+					mvU = prevRight; //swap
+					mvR = prevUp;
+				}
+				testWord5 = testWord5 + puzzle.letterGrid[mvU][mvR];
+				words.findWord(testWord5);
+
+			//Positive diagonal Down
+				if ( mvD > (dimension-1) || mvL < 0){ //Wrapping Edge Case
+					mvD = prevLeft; //swap
+					mvL = prevDown;
+				}
+				testWord6 = testWord6 + puzzle.letterGrid[mvD][mvL];			
+				words.findWord(testWord6); 
 				
-				
-//cout << "Good Until Here" <<endl; //must account for diagonal issue add possible counter to solve issue
-				int tempX, tempY;
-				if( mvU == (dimension-1) || mvR == 0){
-					tempY = mvR;
-					tempX = mvU;
-				}
-				else{
-					tempY = mvU;
-					tempX = mvR;
-				}
-			 	if( !(mvR == 0 && mvU == 0) || !(mvR == dimension-1 && mvU == dimension-1)){
-					testWord5 = testWord5 + puzzle.letterGrid[tempY][tempX];				
-					result = words.findWord(testWord5);
-					cout << testWord5 << endl;
-				}
-/*			   	if (words.findWord(testWord5 + puzzle.letterGrid[mvU][mvR])) 
-=======
-cout<< mvD << " " << mvU << " " << mvR<< " " << mvL << endl;
-				//Expnding test words in 8 directions
-				if (words.findWord(testWord1 + puzzle.letterGrid[mvU][j]))
-					testWord1 = testWord1 + puzzle.letterGrid[mvU][j];
-					cout << testWord1 << endl;
-				if (words.findWord(testWord2 + puzzle.letterGrid[i][mvR]))
-					testWord2 = testWord2 + puzzle.letterGrid[i][mvR];
-                    cout << testWord2 << endl;
-
-				//if (words.findWord(testWord3 + puzzle.letterGrid[mvD][j]))
-					testWord1 = testWord1 + puzzle.letterGrid[mvD][j];
-
-				//if (words.findWord(testWord4 + puzzle.letterGrid[i][mvL]))
-					testWord1 = testWord1 + puzzle.letterGrid[i][mvL];
-cout << "Good Until Here" <<endl; //must account for diagonal issue add possible counter to solve issue
-/*
-			   	if (words.findWord(testWord5 + puzzle.letterGrid[mvU][mvR])) 
->>>>>>> a8f93605eb41e20c7834f58a3d4fb8a28f4eca1e
-					testWord1 = testWord1 + puzzle.letterGrid[mvU][mvR];
-
-				if (words.findWord(testWord6 + puzzle.letterGrid[mvD][mvR])) 
-					testWord1 = testWord1 + puzzle.letterGrid[mvD][mvR];
-
-			   	if (words.findWord(testWord7 + puzzle.letterGrid[mvU][mvL])) 
-					testWord1 = testWord1 + puzzle.letterGrid[mvU][mvL];
-
-				if (words.findWord(testWord8 + puzzle.letterGrid[mvD][mvL])) 
-					testWord1 = testWord1 + puzzle.letterGrid[mvD][mvL];
-*/
+				count++;
 			}
+
+	
+		//Negative Diagonal Checks
+			mvU = i;  mvD = i; mvL = j; mvR = j; //ReInitialize movements
+			int moves = 0;
+			while( moves < dimension ){ //Exclude corners
+				int prevUp(mvU), prevDown(mvD), prevRight(mvR), prevLeft(mvL);//store previous position
+				mvU--;  mvD++; //vertical movements
+				mvL--;  mvR++; //horizontal movements
+			
+			//Negative diagonal UP
+				if( mvU < 0 || mvL < 0){
+					mvU = (dimension-1) - prevLeft;
+					mvL = (dimension-1) - prevUp; 
+				}
+				testWord7 = testWord7 + puzzle.letterGrid[mvU][mvL];
+				words.findWord(testWord7);
+
+			//Negative diagonal DOWN
+				if( mvD > (dimension-1) || mvR > (dimension-1)){
+					mvD = (dimension-1) - prevRight;
+					mvR = (dimension-1) - prevDown;
+				}
+				testWord8 = testWord8 + puzzle.letterGrid[mvD][mvR];
+				words.findWord(testWord8);
+	
+				moves++;
+			}
+
 		}
 	} 
 }
@@ -314,19 +329,19 @@ void search( int sortAlgorithm){
 
 	//File name inputs
 	cout << "Enter Dictionary file name: ";
-//	cin  >> dictFile;
+	cin  >> dictFile;
 	cout << "Enter Grid file name: ";
-//	cin  >> gridFile; 
-//dictFile = "wordlist.txt";
+	cin  >> gridFile; 
+
+//dictFile = "wordlist2.txt";
 //gridFile = "input15.txt";
+//dictFile = "C:\\Users\\cohen\\Github\\WordSearch\\15x15.txt";
+//gridFile = "C:\\Users\\cohen\\Github\\WordSearch\\input15.txt";
 
-dictFile = "C:\\Users\\cohen\\Github\\WordSearch\\15x15.txt";
-gridFile = "C:\\Users\\cohen\\Github\\WordSearch\\input15.txt";
-
-
-    //read txt files
+        //read txt files
 	words.readDictionary(dictFile);
 	puzzle.readGrid(gridFile);
+	puzzle.printGrid();
 
 	//Start Timer
 	start = clock();
@@ -339,13 +354,13 @@ gridFile = "C:\\Users\\cohen\\Github\\WordSearch\\input15.txt";
 		words.quickSort(0,words.dictionary.size()-1);
 	else if( sortAlgorithm == 3)
 		words.dictionary = words.mergeSort(words.dictionary);
-	
+cout << "Here" << endl;	
 	//Take time to sort
 	sortTime = clock();
 
 	//Run word search solver
 	findMatches(words, puzzle);
-
+	
 	//Stop timer
 	end = clock();
 	float tot_sortTime = float(sortTime - start) / float(CLOCKS_PER_SEC);

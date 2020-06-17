@@ -201,7 +201,7 @@ puzzle.printGrid();
 		for(int j = 0; j < dimension; j++){ //columns
  			cout << "Source point: (" << j << ", " << i << ")"<< endl; //print location
 
-			//Assign initial locations to all 8 travel directions
+		//Assign initial locations to all 8 travel directions
 			testWord1  = puzzle.letterGrid[i][j];
 			testWord2  = puzzle.letterGrid[i][j];
 			testWord3  = puzzle.letterGrid[i][j];
@@ -212,7 +212,7 @@ puzzle.printGrid();
 			testWord8  = puzzle.letterGrid[i][j];
 
 			
-			//Horizontal and Verticle test
+		//Horizontal and Verticle test
 			int mvD(i), mvU(i), mvR(j), mvL(j);
 			for( int l = 1; l < dimension ; l++){
 				mvD++;	mvU--; //verticle movements
@@ -246,7 +246,7 @@ puzzle.printGrid();
 			}				
 
 
-			//Positive Diagonal Checks
+		//Positive Diagonal Checks
 			mvU = i;  mvD = i;  mvR = j;  mvL = j; //ReInitialize movements
 			int maxVisit = i + j;
 			int count = 0;
@@ -255,7 +255,7 @@ puzzle.printGrid();
 				mvU--;  mvD++; //vertical movements
 				mvL--;  mvR++; //horizontal movements
 
-				//Positive diagonal UP 				
+			//Positive diagonal UP 				
 				if( mvU < 0 || mvR > (dimension-1)){ //Wrapping Edge Case
 					mvU = prevRight; //swap
 					mvR = prevUp;
@@ -263,7 +263,7 @@ puzzle.printGrid();
 				testWord5 = testWord5 + puzzle.letterGrid[mvU][mvR];
 				words.findWord(testWord5);
 
-				//Positive diagonal Down
+			//Positive diagonal Down
 				if ( mvD > (dimension-1) || mvL < 0){ //Wrapping Edge Case
 					mvD = prevLeft; //swap
 					mvL = prevDown;
@@ -274,13 +274,31 @@ puzzle.printGrid();
 				count++;
 			}
 
-			//Negative Diagonal Checks
+/*	
+		//Negative Diagonal Checks
+			mvU = i;  mvD = i; mvR = j; mvR = j; //ReInitialize movements
 			bool good = true;
-			while( good ){
-				//Negative diagonal UP
-				good = false;
-				//Negative diagonal DOWN
+			while( good ){ //Exclude corners
+				int prevUp(mvU), prevDown(mvD), prevRight(mvR), prevLeft(mvL);//store previous position
+				mvU--;  mvD++; //vertical movements
+				mvL--;  mvR++; //horizontal movements
+			
+			//Negative diagonal UP
+				if( mvU < 0 || mvL < 0){
+					good = false; 
+				}
+				testWord7 = testWord7 + puzzle.letterGrid[mvU][mvL];
+				words.findWord(testWord7);
+
+			//Negative diagonal DOWN
+				if( mvD > (dimenson-1) || mvR > (dimension-1)){
+					good = false;
+				}
+				testWord8 = testWord8 + puzzle.letterGrid[mvD][mvR];
+				words.findWord(testWord8);
 			}
+*/		
+
 		}
 	} 
 }

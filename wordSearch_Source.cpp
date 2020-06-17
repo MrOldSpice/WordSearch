@@ -127,15 +127,31 @@ bool wordList :: findWord(string word){
 	int sz  = word.size();
 
 //cout  << " word : " << word  << endl;
+	
+	//if word is contained in dictionary
 	while( end >= i+1 ){
-		int middle = (i + (end - 1)) / 2;
-//cout << dictionary[middle].substr(0,sz) << endl;
+		int middle = (i + end) / 2;
 		
-		if(dictionary[middle].substr(0,sz) == word){
-			if(dictionary[middle] == word){
-				cout << "\n" << word << "\n" << endl;
-				//add word to vector
-			}	
+		if(dictionary[middle] == word)	
+			cout << "\nFound: " << word << endl;
+
+		//Look at right side if word > middle
+		if(dictionary[middle] < word) 
+			i = middle + 1;
+		//Look at Left side
+		else
+			end = middle - 1;
+	}
+
+
+	//if word is contained in part of a dictionary word
+	i   = 0;
+	end = (int)dictionary.size() -1;
+	while( end >= i+1 ){
+		int middle = (i + end) / 2;
+	
+		if(dictionary[middle].substr(0,sz) == word){	
+//			cout << "Contained" << endl;
 			return true;
 		}
 
@@ -194,12 +210,11 @@ void findMatches(wordList words, grid puzzle){
 
 	int dimension  = puzzle.letterGrid.size();
 	string testWord1, testWord2, testWord3, testWord4, testWord5, testWord6, testWord7, testWord8;
-puzzle.printGrid();
 
 	//cycle through all grid points
 	for(int i = 0; i < dimension; i++){ //rows
 		for(int j = 0; j < dimension; j++){ //columns
- 			cout << "Source point: (" << j << ", " << i << ")"<< endl; //print location
+// 			cout << "Source point: (" << j << ", " << i << ")"<< endl; //print location
 
 		//Assign initial locations to all 8 travel directions
 			testWord1  = puzzle.letterGrid[i][j];
@@ -274,30 +289,33 @@ puzzle.printGrid();
 				count++;
 			}
 
-/*	
+	
 		//Negative Diagonal Checks
-			mvU = i;  mvD = i; mvR = j; mvR = j; //ReInitialize movements
-			bool good = true;
-			while( good ){ //Exclude corners
+			mvU = i;  mvD = i; mvL = j; mvR = j; //ReInitialize movements
+			int moves = 0;
+			while( moves < dimension ){ //Exclude corners
 				int prevUp(mvU), prevDown(mvD), prevRight(mvR), prevLeft(mvL);//store previous position
 				mvU--;  mvD++; //vertical movements
 				mvL--;  mvR++; //horizontal movements
 			
 			//Negative diagonal UP
 				if( mvU < 0 || mvL < 0){
-					good = false; 
+					mvU = (dimension-1) - prevLeft;
+					mvL = (dimension-1) - prevUp; 
 				}
 				testWord7 = testWord7 + puzzle.letterGrid[mvU][mvL];
 				words.findWord(testWord7);
 
 			//Negative diagonal DOWN
-				if( mvD > (dimenson-1) || mvR > (dimension-1)){
-					good = false;
+				if( mvD > (dimension-1) || mvR > (dimension-1)){
+					mvD = (dimension-1) - prevRight;
+					mvR = (dimension-1) - prevDown;
 				}
 				testWord8 = testWord8 + puzzle.letterGrid[mvD][mvR];
 				words.findWord(testWord8);
+	
+				moves++;
 			}
-*/		
 
 		}
 	} 
@@ -311,19 +329,19 @@ void search( int sortAlgorithm){
 
 	//File name inputs
 	cout << "Enter Dictionary file name: ";
-//	cin  >> dictFile;
+	cin  >> dictFile;
 	cout << "Enter Grid file name: ";
-//	cin  >> gridFile; 
+	cin  >> gridFile; 
 
-
-dictFile = "wordlist2.txt";
-gridFile = "input15.txt";
+//dictFile = "wordlist2.txt";
+//gridFile = "input15.txt";
 //dictFile = "C:\\Users\\cohen\\Github\\WordSearch\\15x15.txt";
 //gridFile = "C:\\Users\\cohen\\Github\\WordSearch\\input15.txt";
 
         //read txt files
 	words.readDictionary(dictFile);
 	puzzle.readGrid(gridFile);
+	puzzle.printGrid();
 
 	//Start Timer
 	start = clock();
@@ -336,13 +354,13 @@ gridFile = "input15.txt";
 		words.quickSort(0,words.dictionary.size()-1);
 	else if( sortAlgorithm == 3)
 		words.dictionary = words.mergeSort(words.dictionary);
-	
+cout << "Here" << endl;	
 	//Take time to sort
 	sortTime = clock();
 
 	//Run word search solver
 	findMatches(words, puzzle);
-
+	
 	//Stop timer
 	end = clock();
 	float tot_sortTime = float(sortTime - start) / float(CLOCKS_PER_SEC);

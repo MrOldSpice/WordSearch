@@ -3,11 +3,45 @@
 //
 
 #include "search.h"
-/*
-void grid :: readGrid() {
-    //insert
+
+/* -----Function definitions for class grid----- */
+
+void grid2 :: readGrid(string gridFile){
+    //Read from gridFile text file and push to 2D vector 'letterGrid'
+    vector<string> tmp;
+    string line, letter;
+    unsigned row = 0;
+
+    ifstream file(gridFile);
+    if (file.is_open()){
+        while(getline(file, line)){ //while content in files
+
+            //string selective split
+            for(int i = 0; (i < (int)line.size()) && (row > 0) ; i++){
+                letter = line.at(i);
+                if(letter.compare(" ") != 0)
+                    tmp.push_back(letter);
+            }
+            if (row > 0)
+                letterGrid.push_back(tmp);
+            tmp.clear();
+            row++;
+        }
+        file.close();
+    }
+    else
+        cout << "Unable to open grid file" << endl; //trow error
 }
-*/
+
+void grid2 :: printGrid(){
+    //print letter grid
+    for(unsigned i = 0; i <  letterGrid.size(); i++){
+        for(unsigned j = 0; j < letterGrid[i].size(); j++)
+            cout << letterGrid[i][j] << " ";
+        cout << endl;
+    }
+}
+
 hashDictionary :: hashDictionary(int index) {
     this -> index = index;
     this -> isNULL = NULL;
@@ -118,7 +152,163 @@ HEAP SORT FUNCTIONS
     //count and set dictionary size (number of words)
     //assign words to hashtable
 
-//completeWordSearch()
-    //start timer
-    //solve wordsearch with heap sort function
-    //end and print time
+bool hashMapTable :: findWord(string word){
+    //Binary Search to check if word contained in dictionary
+    int i   = 0;
+    int end = (int)wardlist.size() -1;
+    int sz  = word.size();
+
+//cout  << " word : " << word  << endl;
+
+    //if word is contained in dictionary
+    while( end >= i+1 ){
+        int middle = (i + end) / 2;
+
+        if(wardlist[middle].word == word)
+            cout << "\nFound: " << word << endl;
+
+        //Look at right side if word > middle
+        if(wardlist[middle].word < word)
+            i = middle + 1;
+            //Look at Left side
+        else
+            end = middle - 1;
+    }
+
+
+    //if word is contained in part of a dictionary word
+    i   = 0;
+    end = (int)wardlist.size() -1;
+    while( end >= i+1 ){
+        int middle = (i + end) / 2;
+
+        if(wardlist[middle].word.substr(0,sz) == word){
+//			cout << "Contained" << endl;
+            return true;
+        }
+
+        //Look at right side if word > middle
+        if(wardlist[middle].word.substr(0,sz) < word)
+            i = middle + 1;
+            //Look at Left side
+        else
+            end = middle - 1;
+    }
+
+    return false; //not found
+}
+
+void findMatches(hashMapTable words, grid2 puzzle){
+
+    int dimension  = puzzle.letterGrid.size();
+    string testWord1, testWord2, testWord3, testWord4, testWord5, testWord6, testWord7, testWord8;
+
+    //cycle through all grid points
+    for(int i = 0; i < dimension; i++){ //rows
+        for(int j = 0; j < dimension; j++){ //columns
+// 			cout << "Source point: (" << j << ", " << i << ")"<< endl; //print location
+
+            //Assign initial locations to all 8 travel directions
+            testWord1  = puzzle.letterGrid[i][j];
+            testWord2  = puzzle.letterGrid[i][j];
+            testWord3  = puzzle.letterGrid[i][j];
+            testWord4  = puzzle.letterGrid[i][j];
+            testWord5  = puzzle.letterGrid[i][j];
+            testWord6  = puzzle.letterGrid[i][j];
+            testWord7  = puzzle.letterGrid[i][j];
+            testWord8  = puzzle.letterGrid[i][j];
+
+
+            //Horizontal and Verticle test
+            int mvD(i), mvU(i), mvR(j), mvL(j);
+            for( int l = 1; l < dimension ; l++){
+                mvD++;	mvU--; //verticle movements
+                mvR++;  mvL--; //horizontal movements
+
+                //Grid wrapping Edge Cases
+                if(mvU < 1) //reaches top end, go to bottom
+                    mvU  = dimension-1;
+
+                if(mvD == dimension) //reaches bottom end, go to top
+                    mvD  = 0;
+
+                if(mvR == dimension) //reaches right end, go to left end
+                    mvR = 0;
+
+                if(mvL < 0) //reaches left end, go to right end
+                    mvL = dimension-1;
+
+                //compound testWords and test if valid
+                testWord1 = testWord1 + puzzle.letterGrid[mvU][j];
+                words.findWord(testWord1);
+
+                testWord2 = testWord2 + puzzle.letterGrid[i][mvR];
+                words.findWord(testWord2);
+
+                testWord3 = testWord3 + puzzle.letterGrid[mvD][j];
+                words.findWord(testWord3);
+
+                testWord4 = testWord4 + puzzle.letterGrid[i][mvL];
+                words.findWord(testWord4);
+            }
+
+
+            //Positive Diagonal Checks
+            mvU = i;  mvD = i;  mvR = j;  mvL = j; //ReInitialize movements
+            int maxVisit = i + j;
+            int count = 0;
+            while (count < maxVisit ){
+                int prevUp(mvU), prevDown(mvD), prevRight(mvR), prevLeft(mvL);//store previous position
+                mvU--;  mvD++; //vertical movements
+                mvL--;  mvR++; //horizontal movements
+
+                //Positive diagonal UP
+                if( mvU < 0 || mvR > (dimension-1)){ //Wrapping Edge Case
+                    mvU = prevRight; //swap
+                    mvR = prevUp;
+                }
+                testWord5 = testWord5 + puzzle.letterGrid[mvU][mvR];
+                words.findWord(testWord5);
+
+                //Positive diagonal Down
+                if ( mvD > (dimension-1) || mvL < 0){ //Wrapping Edge Case
+                    mvD = prevLeft; //swap
+                    mvL = prevDown;
+                }
+                testWord6 = testWord6 + puzzle.letterGrid[mvD][mvL];
+                words.findWord(testWord6);
+
+                count++;
+            }
+
+
+            //Negative Diagonal Checks
+            mvU = i;  mvD = i; mvL = j; mvR = j; //ReInitialize movements
+            int moves = 0;
+            while( moves < dimension ){ //Exclude corners
+                int prevUp(mvU), prevDown(mvD), prevRight(mvR), prevLeft(mvL);//store previous position
+                mvU--;  mvD++; //vertical movements
+                mvL--;  mvR++; //horizontal movements
+
+                //Negative diagonal UP
+                if( mvU < 0 || mvL < 0){
+                    mvU = (dimension-1) - prevLeft;
+                    mvL = (dimension-1) - prevUp;
+                }
+                testWord7 = testWord7 + puzzle.letterGrid[mvU][mvL];
+                words.findWord(testWord7);
+
+                //Negative diagonal DOWN
+                if( mvD > (dimension-1) || mvR > (dimension-1)){
+                    mvD = (dimension-1) - prevRight;
+                    mvR = (dimension-1) - prevDown;
+                }
+                testWord8 = testWord8 + puzzle.letterGrid[mvD][mvR];
+                words.findWord(testWord8);
+
+                moves++;
+            }
+
+        }
+    }
+}

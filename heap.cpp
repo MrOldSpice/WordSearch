@@ -1,42 +1,5 @@
-//
-// Created by cohen on 6/16/2020.
-//
-
-#ifndef WORDSEARCH_HEAP_H
-#define WORDSEARCH_HEAP_H
-#include <vector>
-#include <iostream>
-
-using namespace std;
-
-template <typename T>
-
-class Heap {
-private:
-    vector<T> worldList;
-public:
-    Heap();
-
-    void initializeMaxHeap(vector<T> worldList2);
-    void initializeMinHeap(vector<T> worldList2);
-
-    void maxHeapify(int i, int heapSize);
-    void buildMaxHeap(int heapSize);
-
-    void minHeapify(int i, int heapSize);
-    void buildMinHeap(int heapSize);
-    void heapSort(int heapSize);
-
-    int parent(int i) {return (i+1)/2-1;}
-    int left(int i) {return 2*(i+1)-1;}
-    int right(int i) {return 2*(i+1);}
-    T &getItem(int i) {return list[i];}
-
-    T getMaxHeapMaximum();
-    T getMinHeapMinimum();
-    int getIndex(T &key)
-};
-
+#include "Heap.h"
+/*
 template <typename T>
 int Heap<T>::getIndex(T &key) {
     for (int i = 0; i < size(); i++)
@@ -138,4 +101,45 @@ void Heap<T>::heapSort(int heapSize) {
         maxHeapify(0,heapSize);
     }
 }
-#endif //WORDSEARCH_HEAP_H
+*/
+void Heapify(vector<string> hashvect, int n, int i)
+{
+    int largest = i; // Initialize largest as root
+    int l = 2*i + 1; // left = 2*i + 1
+    int r = 2*i + 2; // right = 2*i + 2
+
+    // If left child is larger than root
+    if (l < n && hashvect[l] > hashvect[largest])
+        largest = l;
+
+    // If right child is larger than largest so far
+    if (r < n && hashvect[r] > hashvect[largest])
+        largest = r;
+
+    // If largest is not root
+    if (largest != i)
+    {
+        swap(hashvect[i], hashvect[largest]);
+
+        // Recursively heapify the affected sub-tree
+        Heapify(hashvect, n, largest);
+    }
+}
+
+// main function to do heap sort
+void HeapSort(vector<string> hashvect, int n) {
+    // Build heap (rearrange array)
+
+    for (int i = n / 2 - 1; i >= 0; i--)
+        Heapify(hashvect, n, i);
+
+    // One by one extract an element from heap
+    for (int i = n - 1; i > 0; i--) {
+        // Move current root to end
+        swap(hashvect[0], hashvect[i]);
+
+        // call max heapify on the reduced heap
+        Heapify(hashvect, i, 0);
+    }
+
+}

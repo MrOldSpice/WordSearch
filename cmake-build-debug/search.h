@@ -12,13 +12,15 @@
 using namespace std;
 const int tableSize = 2311;
 
-/*
-class grid {
+class grid2{
 public:
+    //2D vector to contain letters in the grid
     vector<vector<string>> letterGrid;
-    void readGrid();
+
+    void readGrid(string);	//Read letters from grid, IN: file name
+    void printGrid();	//Print the letter grid
 };
-*/
+
 class hashDictionary{
 public:
     //vector <pair <int,string>> Dictionary;
@@ -43,13 +45,14 @@ public:
     void read2hash(string);
     void hash2print();
     vector<hashDictionary> send2vect();
-    ~hashMapTable();
+    bool findWord(string word);
+        ~hashMapTable();
 };
 
 //Heap classes (insert here)
 
-void readDictionary(); //read dictionary file and assign to hash table
+void search(); //read dictionary file and assign to hash table
 
-void completeWordSearch(); //execute word search and print runtime
+void findMatches(hashMapTable, grid2); //execute word search and print runtime
 
 #endif //WORDSEARCH_SEARCH_H

@@ -8,53 +8,65 @@ void grid :: readGrid() {
     //insert
 }
 */
+hashDictionary :: hashDictionary(int index) {
+    this -> index = index;
+    this -> isNULL = NULL;
+}
+
+
 hashDictionary :: hashDictionary(int index, string word) {
     this -> index = index;
     this -> word = word;
+    this -> isNULL = true;
+    //this ->Dictionary.push_back(make_pair(index,word));
 
 }
 
 hashMapTable :: hashMapTable() {
-    wordlist = new hashDictionary *[tableSize];
+    //wordlist = new hashDictionary *[tableSize];
     for (int i = 0; i < tableSize; i++) {
-        wordlist[i] = NULL;
-    }}
+        //wordlist[i] = NULL;
+        wardlist.emplace_back(i);
+    }
+}
 int hashMapTable:: hash(int in1) {
     return  in1 % tableSize;
 
 }
 void hashMapTable :: addItem(int in1, string in2) {
     int hashed = hash(in1);
-    while (wordlist[hashed] != NULL && wordlist[hashed]->index != in1) {
+    while (wardlist[hashed].isNULL != NULL && wardlist[hashed].index != in1) {
         hashed = hash(hashed + 1);
     }
-    if (wordlist[hashed] != NULL)
-        delete wordlist[hashed];
-    wordlist[hashed] = new hashDictionary(in1, in2);
+    if (wardlist[hashed].isNULL != NULL){
+        wardlist.erase(wardlist.begin()+hashed);
+    }
+    wardlist[hashed] = hashDictionary(in1,in2);
 }
 
 string hashMapTable ::inList(int in1) {
     int hashed = hash(in1);
-    while (wordlist[hashed] != NULL && wordlist[hashed]->index != in1) {
+    while (wardlist[hashed].isNULL != NULL && wardlist[hashed].index != in1) {
         hashed = hash(hashed + 1);
     }
-    if (wordlist[hashed] == NULL)
+    if (wardlist[hashed].isNULL == NULL){
         return "X";
+    }
     else
-        return wordlist[hashed]->word;
+        return wardlist[hashed].word;
 }
 void hashMapTable::deleteItem(int in1) {
     int hashed = hash(in1);
-    while (wordlist[hashed] != NULL) {
-        if (wordlist[hashed]->index == in1)
+    while (wardlist[hashed].isNULL != NULL) {
+        if (wardlist[hashed].index == in1)
             break;
         hashed = hash(hashed + 1);
     }
-    if (wordlist[hashed] == NULL) {
+    if (wardlist[hashed].isNULL != NULL) {
         cout<<"No Element found at key "<< in1 <<endl;
         return;
     } else {
-        delete wordlist[hashed];
+        wardlist.erase(wardlist.begin()+hashed);
     }
     cout<<"Element Deleted"<<endl;
 }
@@ -76,19 +88,20 @@ void hashMapTable :: read2hash(string dictionaryFile) {
 }
 void hashMapTable :: hash2print() {
     int i = 0;
-    while (wordlist[i] != NULL){
+    while (wardlist[i].isNULL != NULL){
         cout << inList(i) << endl;
         i++;
     }
 }
 
+
 hashMapTable :: ~hashMapTable() {
     int i = 0;
-    while (wordlist[i] != NULL) {
-        delete wordlist[i];
+    while (wardlist[i].isNULL != NULL) {
+        wardlist.erase(wardlist.begin()+i);
         i++;
     }
-    delete[] wordlist;
+    wardlist.clear();
 }
 
 

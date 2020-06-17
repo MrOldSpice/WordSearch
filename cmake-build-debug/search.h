@@ -21,13 +21,17 @@ public:
 */
 class hashDictionary{
 public:
+    //vector <pair <int,string>> Dictionary;
     int index;
     string word;
+    bool isNULL;
+    hashDictionary(int);
     hashDictionary(int , string);
 };
 
 class hashMapTable{
-private:
+public:
+    vector <hashDictionary> wardlist;
     hashDictionary **wordlist;
 public:
     hashMapTable();
@@ -38,6 +42,7 @@ public:
     void deleteItem(int);
     void read2hash(string);
     void hash2print();
+    vector<hashDictionary> send2vect();
     ~hashMapTable();
 };
 

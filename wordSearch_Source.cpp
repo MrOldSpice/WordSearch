@@ -151,7 +151,7 @@ void grid :: readGrid(string gridFile){
 	vector<string> tmp;
 	string line, letter;
 	unsigned row = 0;
-		
+
 	ifstream file(gridFile);
 	if (file.is_open()){
 		while(getline(file, line)){ //while content in files
@@ -170,7 +170,7 @@ void grid :: readGrid(string gridFile){
 		file.close();
 	}
 	else
-		cout << "Unable to open grid file" << endl; //trow error 
+		cout << "Unable to open grid file" << endl; //trow error
 }
 
 void grid :: printGrid(){
@@ -189,7 +189,7 @@ void findMatches(wordList words, grid puzzle){
 	int dimension  = puzzle.letterGrid.size();
 puzzle.printGrid();
 cout << dimension <<"here  "<<puzzle.letterGrid[dimension-1][1] << endl;
-	for(int i = 0; i <= dimension; i++){ //rows
+	for(int i = 0; i < dimension; i++){ //rows
 		for(int j = 0; j < dimension; j++){ //columns
  
 			testWord1  = puzzle.letterGrid[i][j];
@@ -205,8 +205,6 @@ cout << dimension <<"here  "<<puzzle.letterGrid[dimension-1][1] << endl;
 			int mvD(i), mvU(i), mvR(j), mvL(j);
 			bool p1(true), p2(true), p3(true), p4(true);
 			cout << "Source point: (" << j << ", " << i << ")"<< endl; 
-
-
 
 			for( int l = 1; l < dimension ; l++){
 				int mvD = i+l;
@@ -270,37 +268,6 @@ cout<< mvD << mvU << mvR << mvL << endl;
 					result = words.findWord(testWord5);
 					cout << testWord5 << endl;
 				}
-/*			   	if (words.findWord(testWord5 + puzzle.letterGrid[mvU][mvR])) 
-=======
-cout<< mvD << " " << mvU << " " << mvR<< " " << mvL << endl;
-				//Expnding test words in 8 directions
-				if (words.findWord(testWord1 + puzzle.letterGrid[mvU][j]))
-					testWord1 = testWord1 + puzzle.letterGrid[mvU][j];
-					cout << testWord1 << endl;
-				if (words.findWord(testWord2 + puzzle.letterGrid[i][mvR]))
-					testWord2 = testWord2 + puzzle.letterGrid[i][mvR];
-                    cout << testWord2 << endl;
-
-				//if (words.findWord(testWord3 + puzzle.letterGrid[mvD][j]))
-					testWord1 = testWord1 + puzzle.letterGrid[mvD][j];
-
-				//if (words.findWord(testWord4 + puzzle.letterGrid[i][mvL]))
-					testWord1 = testWord1 + puzzle.letterGrid[i][mvL];
-cout << "Good Until Here" <<endl; //must account for diagonal issue add possible counter to solve issue
-/*
-			   	if (words.findWord(testWord5 + puzzle.letterGrid[mvU][mvR])) 
->>>>>>> a8f93605eb41e20c7834f58a3d4fb8a28f4eca1e
-					testWord1 = testWord1 + puzzle.letterGrid[mvU][mvR];
-
-				if (words.findWord(testWord6 + puzzle.letterGrid[mvD][mvR])) 
-					testWord1 = testWord1 + puzzle.letterGrid[mvD][mvR];
-
-			   	if (words.findWord(testWord7 + puzzle.letterGrid[mvU][mvL])) 
-					testWord1 = testWord1 + puzzle.letterGrid[mvU][mvL];
-
-				if (words.findWord(testWord8 + puzzle.letterGrid[mvD][mvL])) 
-					testWord1 = testWord1 + puzzle.letterGrid[mvD][mvL];
-*/
 			}
 		}
 	} 

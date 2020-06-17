@@ -1,5 +1,6 @@
 #include "wordSearch_Head.h"
 #include "search.h"
+#include "Heap.h"
 #include "cmake-build-debug/search.h"
 
 string dictionaryFile = "C:\\Users\\cohen\\Github\\WordSearch\\wordlist.txt";
@@ -18,9 +19,15 @@ int main(){
     hashMapTable hash;
     hash.read2hash(dictionaryFile);
     hash.hash2print();
-    cout << "end" << endl;
-    return 0;
 
+    cout << "\n==================================================\n==================================================\n";
+    Heap<hashDictionary> heap;
+    heap.initializeMaxHeap(hash.wardlist);
+    heap.heapSort(hash.wardlist.size());
+
+    for(int i = 0; i<hash.wardlist.size(); i++){
+        cout << hash.wardlist[i].word << "\n";
+    }
 /*
     	test.insertionSort();
     	test.quickSort(0, test.dictionary.size()-1);

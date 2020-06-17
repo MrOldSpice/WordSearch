@@ -15,20 +15,20 @@ public:
 	vector<string>  dictionary;		// vector to store words in dictionary
 
 	//Getting Words from file
-	void readDictionary(string); 	//read words from dictionary, IN: file name
-	void printDictionary();		//print all words in the dictionary
+	void readDictionary(string); 		//read words from dictionary, IN: file name
+	void printDictionary();			//print all words in the dictionary
 
 	//Sorting Algorithms
-	void insertionSort();				//sort vector 'dictionary' using Insertion Sort (1)
+	void insertionSort();			    //sort vector 'dictionary' using Insertion Sort (1)
 	
-	void quickSort(int low, int high);		//sort vector 'dictionary' using Quick Sort     (2)	
+	void quickSort(int low, int high);          //sort vector 'dictionary' using Quick Sort     (2)	
 	int partition ( int low, int high);
     	
-	vector<string> mergeSort(vector<string> m);	//sort vector 'dictionary' using Merge Sort     (3)
+	vector<string> mergeSort(vector<string> m); //sort vector 'dictionary' using Merge Sort     (3)
     	vector<string> merge(vector<string> left, vector<string> right);
 
 	//Searching the Dictionary (Binary Search)
-	bool findWord(string);		//return TRUE if string is contained in dictionary
+	bool findWord(string);			//return TRUE if string is contained in dictionary
 };
 
 class grid{

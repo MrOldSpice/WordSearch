@@ -1,6 +1,5 @@
 #include "wordSearch_Head.h"
 #include "search.h"
-#include "Heap.h"
 #include "cmake-build-debug/search.h"
 
 string dictionaryFile = "C:\\Users\\cohen\\Github\\WordSearch\\wordlist.txt";
